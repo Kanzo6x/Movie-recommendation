@@ -9,13 +9,12 @@ import People from '../Components/People/People';
 import Notfound from '../Components/Notfound/Notfound';
 import Register from '../Components/Register/Register';
 import Login from '../Components/Login/Login';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 export default function App() {
 
   const [userData, setUserData] = useState(null);
-  let navigate=useNavigate();
+  let navigate = useNavigate();
 
   function saveUserData() {
     let userToken = localStorage.getItem('userToken');
@@ -29,18 +28,10 @@ export default function App() {
   }
 
   useEffect(() => {
-    if(localStorage.getItem('userToken')!=null) {
+    if (localStorage.getItem('userToken') != null) {
       saveUserData();
     }
   }, []);
-
-  function ProtectedRoute(props) {
-    if(localStorage.getItem('userToken')===null) {
-      return <Navigate to='/login' />
-    } else {
-      return props.children;
-    }
-  }
 
   return (
     <>
@@ -48,11 +39,11 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='home' element={<Home />}></Route>
-        <Route path='movies' element={<ProtectedRoute><Movies /></ProtectedRoute>}></Route>
+        <Route path='movies' element={<Movies />}></Route>
         <Route path='about' element={<About />}></Route>
-        <Route path='tvshows' element={<ProtectedRoute><Tvshows /></ProtectedRoute>}></Route>
-        <Route path='details' element={<ProtectedRoute><Details /></ProtectedRoute>}></Route>
-        <Route path='people' element={<ProtectedRoute><People /></ProtectedRoute>}></Route>
+        <Route path='tvshows' element={<Tvshows />}></Route>
+        <Route path='details' element={<Details />}></Route>
+        <Route path='people' element={<People />}></Route>
         <Route path='login' element={<Login saveUserData={saveUserData} />}></Route>
         <Route path='register' element={<Register />}></Route>
         <Route path='*' element={<Notfound />}></Route>

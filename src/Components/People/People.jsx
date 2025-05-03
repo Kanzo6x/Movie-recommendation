@@ -8,21 +8,21 @@ export default function People() {
 
   let baseImgUrl = 'https://image.tmdb.org/t/p/original/';
 
-  async function getTrendingItems(mediaType, callback) {
-    setLoading(true);
-    let { data } = await axios.get(`https://api.themoviedb.org/3/trending/person/day?api_key=b116c6cff13d226f2cb7a9a6253b930b`, {
-      headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMTE2YzZjZmYxM2QyMjZmMmNiN2E5YTYyNTNiOTMwYiIsInN1YiI6IjYyOTc2OWNlNTUwN2U5MTQ5MjVlZTFmZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.r7hptV2G5FwzNnzGQ_3NWcvBHuIeWOL7d7lBYuh5IHY'
-      }
-    })
-    callback(data.results);
-    setLoading(false);
+  async function getTrendingItems() {
+    try {
+      setLoading(true);
+      const { data } = await axios.get('https://api.themoviedb.org/3/trending/person/week?api_key=b116c6cff13d226f2cb7a9a6253b930b');
+      setTrendingPeople(data.results.filter(person => person.profile_path));
+    } catch (error) {
+      console.error('Error fetching people:', error);
+      setTrendingPeople([]);
+    } finally {
+      setLoading(false);
+    }
   }
-  
+
   useEffect(() => {
-    getTrendingItems('movie', setTrendingPeople);
-    
+    getTrendingItems();
   }, []);
 
   return (
