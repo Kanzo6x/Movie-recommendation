@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 
-export default function Navbar(props) {
+export default function Navbar({ userData, userName, logout }) {
   return (
     <>
       <nav className={`navbar navbar-expand-lg navbar-dark ${styles.navbar}`}>
@@ -22,7 +22,7 @@ export default function Navbar(props) {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            {props.userData ? (
+            {userData ? (
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <Link
@@ -64,15 +64,20 @@ export default function Navbar(props) {
                 <i className="fab mx-2 fa-instagram"></i>
                 <i className="fab mx-2 fa-youtube"></i>
               </div>
-              {props.userData ? (
-                <li className="nav-item">
-                  <a
-                    onClick={props.logout}
-                    className={`nav-link ${styles.cursorPointer}`}
-                  >
-                    Logout
-                  </a>
-                </li>
+              {userData ? (
+                <>
+                  <li className="nav-item d-flex align-items-center">
+                    <span className="nav-link text-white">Welcome, {userName}</span>
+                  </li>
+                  <li className="nav-item">
+                    <span
+                      onClick={logout}
+                      className={`nav-link ${styles.cursorPointer}`}
+                    >
+                      Logout
+                    </span>
+                  </li>
+                </>
               ) : (
                 <>
                   <li className="nav-item">

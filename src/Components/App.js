@@ -14,16 +14,25 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 export default function App() {
 
   const [userData, setUserData] = useState(null);
+  const [userName, setUserName] = useState('');
   let navigate = useNavigate();
 
   function saveUserData() {
     let userToken = localStorage.getItem('userToken');
     setUserData(userToken);
+    // Decode the token to get user name
+    try {
+      const tokenData = JSON.parse(atob(userToken.split('.')[1]));
+      setUserName(tokenData.name || '');
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
   }
 
   function logout() {
     localStorage.removeItem('userToken');
     setUserData(null);
+    setUserName('');
     navigate('./login');
   }
 
@@ -35,7 +44,7 @@ export default function App() {
 
   return (
     <>
-      <Navbar userData={userData} logout={logout} />
+      <Navbar userData={userData} userName={userName} logout={logout} />
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='home' element={<Home />}></Route>

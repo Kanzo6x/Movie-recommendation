@@ -41,17 +41,15 @@ export default function Login(props) {
     if (validateResponse.error) {
       setErrorsList(validateResponse.error.details);
     } else {
-      let { data } = await axios.post(
-        "https://noxe-api.onrender.com/api/v1/users/login",
-        user
-      );
-      console.log(data);
-      if (data.data.token) {
-        localStorage.setItem("userToken", data.data.token);
-        props.saveUserData();
-        goToHome();
-      } else {
-        setErrorMsg(data.message);
+      try {
+        let { data } = await axios.post('http://localhost:5000/api/auth/login', user);
+        if (data.data.token) {
+          localStorage.setItem("userToken", data.data.token);
+          props.saveUserData();
+          goToHome();
+        }
+      } catch (error) {
+        setErrorMsg(error.response?.data?.message || 'Login failed');
       }
     }
     setLoading(false);

@@ -41,15 +41,14 @@ export default function Register() {
     if (validateResponse.error) {
       setErrorsList(validateResponse.error.details);
     } else {
-      let { data } = await axios.post(
-        "https://noxe-api.onrender.com/api/v1/users",
-        user
-      );
-      if (data.data.token) {
-        localStorage.setItem("userToken", data.data.token);
-        goToHome();
-      } else {
-        setErrorMsg(data.data.errors[0].msg);
+      try {
+        let { data } = await axios.post('http://localhost:5000/api/auth/register', user);
+        if (data.data.token) {
+          localStorage.setItem("userToken", data.data.token);
+          goToHome();
+        }
+      } catch (error) {
+        setErrorMsg(error.response?.data?.message || 'Registration failed');
       }
     }
     setLoading(false);
