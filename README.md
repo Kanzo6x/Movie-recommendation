@@ -1,3 +1,11 @@
+# Noxe - Movie Application
+
+## Team Members
+- Amr Nasser
+- Khaled Mohamed
+- Ahmed Ramadan
+- Youssef Ahmed
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
